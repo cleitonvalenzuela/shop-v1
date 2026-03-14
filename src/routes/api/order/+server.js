@@ -5,7 +5,7 @@ import { getRandomNumber } from '$lib/random';
 import { addHoursToDate } from '$lib/datetime.js';
 import { getShippingRange } from '$lib/shipping.js';
 
-import { PODPAY_SECRET_KEY } from '$env/static/private';
+import { PODPAY_PUBLIC_KEY, PODPAY_PRIVATE_KEY } from '$env/static/private';
 
 const getCustomerByID = async (id) => {
     if(!id) return;
@@ -88,43 +88,43 @@ const createPayment = async (order_id, amount, customer, method) => {
     let status = "pending";
     let reason = "waiting_payment";
 
-    // Gera a transação no gateway.
-    const request = await fetch("https://api.podpay.app/v1/transactions", {
-        method: 'POST',
+    // Realiza a requisição para o gateway.
+    const request = await fetch("https://api.podpay.pro/v1/transactions", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': PODPAY_SECRET_KEY
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + Buffer.from(PODPAY_PUBLIC_KEY + ':' + PODPAY_PRIVATE_KEY).toString('base64'),
         },
         body: JSON.stringify({
-            paymentMethod: "pix",
-            amount: parseInt(amount*100),
-            customer: {
-                name: customer.fullname,
-                email: customer.email,
-                phone: customer.phone,
-                document: {
-                    type: "cpf",
-                    number: customer.document
+            "amount": amount * 100,
+            "paymentMethod": "pix",
+            "items": [{
+                "title": "Ebook: Dieta Cetogenica",
+                "unitPrice": amount * 100,
+                "quantity": 1,
+                "tangible": false
+            }],
+            "customer": {
+                "name": customer.fullname,
+                "email": customer.email,
+                "document": {
+                    "number": customer.document,
+                    "type": "cpf"
                 }
-            },
-            items: [{
-                title: "Ebook: Dieta Cetogenica",
-                tangible: false,
-                quantity: 1,
-                unitPrice: parseInt(amount*100)
-            }]
+            }
         })
     });
 
     // Verifica a resposta da API.
     const response = await request.json();
-    if(request.status != 201){
+    if(request.status != 200){
         throw console.log(`PodPay request error ${request.status}: `, JSON.stringify(response));
     }
 
     // Pega os dados de pagamento PIX.
-    let pix = response?.data?.pixQrCode;
-    let reference = response?.data?.id;
+    let pix = response?.pix?.qrcode;
+    let reference = response?.id;
 
     // Cria o registro no banco de dados.
     const { data, error } = await supabase
