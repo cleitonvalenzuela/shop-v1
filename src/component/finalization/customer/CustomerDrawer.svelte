@@ -44,7 +44,8 @@
                 fullname: customer?.fullname,
                 phone: customer?.phone,
                 email: customer?.email,
-                document: value.replace(/\D/g, "")
+                document: value.replace(/\D/g, ""),
+                is_filled: true
             })
         });
 
