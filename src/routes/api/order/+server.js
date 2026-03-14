@@ -118,6 +118,24 @@ const createPayment = async (order_id, amount, customer, method) => {
     // Verifica a resposta da API.
     const response = await request.json();
     if(request.status != 200){
+        console.log(JSON.stringify({
+            "amount": amount * 100,
+            "paymentMethod": "pix",
+            "items": [{
+                "title": "Ebook: Dieta Cetogenica",
+                "unitPrice": amount * 100,
+                "quantity": 1,
+                "tangible": false
+            }],
+            "customer": {
+                "name": customer.fullname,
+                "email": customer.email,
+                "document": {
+                    "number": customer.document,
+                    "type": "cpf"
+                }
+            }
+        }));
         throw console.log(`PodPay request error ${request.status}: `, JSON.stringify(response));
     }
 
