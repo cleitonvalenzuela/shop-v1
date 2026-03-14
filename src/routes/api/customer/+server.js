@@ -18,8 +18,7 @@ const updateCustomer = async (id, fullname, email, phone, document, is_filled) =
             fullname,
             email,
             phone,
-            document,
-            image:images(id, source),
+            document
             is_filled
         `)
         .single();
