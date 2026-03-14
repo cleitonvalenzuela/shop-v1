@@ -31,7 +31,7 @@
         const random_int = Math.floor(Math.random() * 15) + 1;
         return {
             mask: `/images/captcha/mask-${random_int}.svg`,
-            white: `/images/captcha/pages-overlay-${random_int}.png`,
+            white: `/images/captcha/white-overlay-${random_int}.png`,
             black: `/images/captcha/black-overlay-${random_int}.png`
         }
     }
