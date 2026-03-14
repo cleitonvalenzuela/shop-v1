@@ -18,7 +18,7 @@ const updateCustomer = async (id, fullname, email, phone, document, is_filled) =
             fullname,
             email,
             phone,
-            document
+            document,
             is_filled
         `)
         .single();
