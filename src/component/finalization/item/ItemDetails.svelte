@@ -9,6 +9,7 @@
     
     let { costs, discounts, product, quantity, price, variations, variants, updateQuantity=()=>{} } = $props();
 
+    let image = $derived(price?.image || product?.images?.find(item => item.index == 0));
     let timer = $state(null);
     let interval;
 
@@ -50,7 +51,7 @@
 </script>
 
 <div class="flex w-full gap-[10px]">
-    <div class="flex size-[88px] shrink-0 rounded-[3px] bg-[#F8F8F8] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${price?.image?.source}')`}></div>
+    <div class="flex size-[88px] shrink-0 rounded-[3px] bg-[#F8F8F8] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
     <div class="flex flex-col w-full relative" style="max-width: calc(100% - 96px);">
         <div class="flex gap-[4px] relative overflow-hidden">
             {#if product?.badge == "eleven-eleven"}

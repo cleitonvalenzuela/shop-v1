@@ -5,7 +5,7 @@ import { getRandomNumber } from '$lib/random';
 import { addHoursToDate } from '$lib/datetime.js';
 import { getShippingRange } from '$lib/shipping.js';
 
-import { FENDA_CLIENT_ID, FENDA_SECRET } from '$env/static/private';
+import { PODPAY_SECRET_KEY } from '$env/static/private';
 
 const getCustomerByID = async (id) => {
     if(!id) return;
@@ -88,32 +88,43 @@ const createPayment = async (order_id, amount, customer, method) => {
     let status = "pending";
     let reason = "waiting_payment";
 
-    const payload = stringify({
-        client_id: FENDA_CLIENT_ID,
-        client_secret: FENDA_SECRET,
-        nome: customer.fullname,
-        cpf: customer.document,
-        valor: amount
-    });
-
-    const request = await fetch("https://fendapay.com.br/v3/pix/qrcode.php", {
-        method: "POST",
-        body: payload,
+    // Gera a transação no gateway.
+    const request = await fetch("https://api.podpay.app/v1/transactions", {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Content-Length": payload.length
-        }
+            'Content-Type': 'application/json',
+            'x-api-key': PODPAY_SECRET_KEY
+        },
+        body: JSON.stringify({
+            paymentMethod: "pix",
+            amount: parseInt(amount*100),
+            customer: {
+                name: customer.fullname,
+                email: customer.email,
+                phone: customer.phone,
+                document: {
+                    type: "cpf",
+                    number: customer.document
+                }
+            },
+            items: [{
+                title: "Ebook: Dieta Cetogenica",
+                tangible: false,
+                quantity: 1,
+                unitPrice: parseInt(amount*100)
+            }]
+        })
     });
 
     // Verifica a resposta da API.
     const response = await request.json();
-    if(request.status != 200){
-        throw console.log(`FendaPy request error ${request.status}: `, JSON.stringify(response));
+    if(request.status != 201){
+        throw console.log(`PodPay request error ${request.status}: `, JSON.stringify(response));
     }
 
     // Pega os dados de pagamento PIX.
-    let pix = response?.qrCodeResponse?.qrcode;
-    let reference = response?.qrCodeResponse?.transactionId;
+    let pix = response?.data?.pixQrCode;
+    let reference = response?.data?.id;
 
     // Cria o registro no banco de dados.
     const { data, error } = await supabase
