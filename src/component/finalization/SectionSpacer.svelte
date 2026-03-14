@@ -1,0 +1,1 @@
+<div class="flex shrink-0 w-full h-[8px] bg-[#F5F5F5]"></div>

@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+@font-face {
+    font-family: "Tiktok Sans";
+    src: url('/fonts/tiktok-font.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: block;
+}
+
+@theme {
+    @keyframes revolve {
+        0%   { left: 0 }
+        25%  { transform: scale(1.1) }
+        50%  { left: 0.75rem }
+        75%  { transform: scale(0.75) }
+        100% { left: 0 }
+    }
+
+    @keyframes reveal {
+        0% { transform: translateY(0px); }
+        13% { transform: translateY(-28px); }
+        87% { transform: translateY(-28px); }
+        100% { transform: translateY(0px); }
+    }
+
+    --font-tiktok: "Tiktok Sans", sans-serif;
+    --animate-revolve: revolve 0.8s ease-in-out infinite;
+    --animate-installments: reveal 3s ease-in-out 1;
+    --shadow-custom: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
+    --shadow-recommendations: 0 0 0.5rem rgba(0, 0, 0, 0.03);
+    --shadow-input-error: inset 0 0 0 2px #FF4C3A;
+}
+
+@layer utilities {
+    .transparent-scroll::-webkit-scrollbar {
+        display: none;
+    }
+    .transparent-scroll {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .no-selectable {
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        user-drag: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .skeleton {
+        animation: skeleton-pulse 1.2s ease-in-out infinite;
+        background-color: #eeeeee;
+    }
+    .skeleton-v2 {
+        animation: skeleton-pulse 1.2s ease-in-out infinite;
+        background-color: #fcfcfc;
+    }
+    .shake {
+        animation: shake 0.4s ease;
+    }
+
+    @keyframes skeleton-pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.45; }
+        100% { opacity: 1; }
+    }
+      
+    @keyframes shake {
+        0%   { transform: translateX(0); }
+        20%  { transform: translateX(-6px); }
+        40%  { transform: translateX(6px); }
+        60%  { transform: translateX(-6px); }
+        80%  { transform: translateX(6px); }
+        100% { transform: translateX(0); }
+    }
+}
+
+* {
+    font-family: var(--font-tiktok);
+    touch-action: pan-y pan-x;
+    outline: none
+}
+html, body {
+    max-width: 100dvw;
+    min-height: 100dvh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+    background-color: #FFF;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+body.no-scroll {
+    overflow: hidden;
+}
+ul {
+    margin-bottom: 0.05rem;
+}
+.garanties-animation {
+    animation: garanties-slider 10s ease-in-out infinite;
+}
+
+@keyframes garanties-slider {
+    4%  { transform: translateY(0); }
+    33% { transform: translateY(0); }
+    37%  { transform: translateY(-15px); }
+    63%  { transform: translateY(-15px); }
+    67%  { transform: translateY(-30px); }
+    96%  { transform: translateY(-30px); }
+    99.98% { transform: translateY(-45px); }
+    99.99% { transform: translateY(0px); }
+}

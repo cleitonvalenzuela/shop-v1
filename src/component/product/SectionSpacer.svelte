@@ -1,0 +1,1 @@
+<span class="w-full h-[8px] shrink-0"></span>
