@@ -11,7 +11,7 @@ const getSessionByID = async (id) => {
         .eq('id', id)
         .select(`
             *,
-            customer:customers(id, fullname, phone, gender, email, document, image, is_filled),
+            customer:customers(id, fullname, phone, email, document, is_filled),
             address:addresses(id, postal, district, street, number, unit, complement, city:cities(id, name), region:regions(id, name, code), is_filled)
         `)
         .maybeSingle();
