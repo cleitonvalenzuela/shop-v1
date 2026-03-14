@@ -17,8 +17,7 @@ const getCustomerByID = async (id) => {
         fullname,
         email,
         phone,
-        document,
-        image:images(id, source, index)
+        document
     `)
     .match({ id, is_active: true })
     .maybeSingle();
