@@ -91,7 +91,7 @@
                 {/each}
             </div>
         </div>
-        <div class={`flex w-full fixed bottom-0 left-0 px-[16px] pt-[12px] ${session?.os?.name == "iOS" ? "pb-[48px]" : "pb-[10px]"} bg-white`}>
+        <div class={`flex w-full fixed bottom-0 left-0 px-[16px] pt-[12px] ${session?.os?.name == "iOS" ? "pb-[48px]" : "pb-[12px]"} bg-white`}>
             <button class="flex justify-center items-center w-full h-[43px] rounded-md bg-[#FE2C55] hover:bg-[#E81D44] active:bg-[#E81D44] disabled:bg-[#F2F2F2] group" disabled={!cancellation} type="button" onclick={cancelSubmit}>
                 <span class="text-white group-disabled:text-[#9F9F9F] text-[15px] font-semibold leading-none">Enviar</span>
             </button>

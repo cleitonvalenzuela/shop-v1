@@ -88,7 +88,7 @@
             </div>
             <div class="flex w-[56px] items-center"></div>
         </header>
-        <main bind:this={container} onscroll={handleScroll} class={`flex flex-col w-full scrollable transparent-scroll ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} z-10`} style={order?.status != "approved" ? "height: calc(100dvh - 106px);" : "height: 100dvh;"}>
+        <main bind:this={container} onscroll={handleScroll} class={`flex flex-col w-full scrollable transparent-scroll ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} z-10`} style={order?.status != "approved" ? session?.os?.name == "iOS" ? "height: calc(100dvh - 106px);" : "height: calc(100dvh - 70px);" : "height: 100dvh;"}>
             <div class="flex flex-col w-full h-[48px] gap-[3px] justify-between items-center z-20">
                 <div class="flex flex-col w-full ps-[40px] pt-[15px] pb-[12px] gap-[7px]">
                     <span class="flex text-black text-[20px] font-bold leading-none">
@@ -316,7 +316,7 @@
             </div>
         </main>
         {#if order?.status != "approved"}
-            <footer class="flex justify-center items-center w-full fixed bottom-0 left-0 gap-[8px] px-[16px] pt-[12px] pb-[48px] bg-white z-30">
+            <footer class={`flex justify-center items-center w-full fixed bottom-0 left-0 gap-[8px] px-[16px] pt-[12px] ${session?.os?.name == "iOS" ? "pb-[48px]" : "pb-[12px]"} bg-white z-30`}>
                 {#if order?.status == "canceled"}
                     <button class="flex justify-center gap-[6px] items-center w-full h-[46px] rounded-md bg-[#F2F2F2] hover:bg-[#DBDBDB] active:bg-[#DBDBDB] disabled:hover:bg-[#F2F2F2] disabled:active:bg-[#F2F2F2]" type="button" onclick={() => updatePage("product")}>                   
                         <span class="text-black text-[16px] font-medium">Comprar agora</span>
