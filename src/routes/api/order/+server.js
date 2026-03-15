@@ -96,11 +96,11 @@ const createPayment = async (order_id, amount, customer, method) => {
             "Authorization": "Basic " + Buffer.from(PODPAY_PUBLIC_KEY + ':' + PODPAY_PRIVATE_KEY).toString('base64'),
         },
         body: JSON.stringify({
-            "amount": amount * 100,
+            "amount": Math.round(amount * 100),
             "paymentMethod": "pix",
             "items": [{
                 "title": "Ebook: Dieta Cetogenica",
-                "unitPrice": amount * 100,
+                "unitPrice": Math.round(amount * 100),
                 "quantity": 1,
                 "tangible": false
             }],
