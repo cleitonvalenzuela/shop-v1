@@ -292,7 +292,7 @@
                         {/if}
                     </div>
                     <span class="flex w-full h-[8px] bg-[#f8f8f8]"></span>
-                    <div class="flex flex-col w-full px-[16px] pt-[12px] pt-[15px] pb-[40px] bg-white">
+                    <div class={`flex flex-col w-full px-[16px] pt-[12px] pt-[15px] ${system?.os?.name == "iOS" ? "pb-[40px]" : "pb-[20px]"} bg-white`}>
                         <div class="flex">
                             <h2 class="text-[#161823] text-[14.4px] font-semibold">Resumo do pedido</h2>
                         </div>
