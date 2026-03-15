@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import supabase from "$lib/supabase";
 
 const getOrderByID = async (id) => {
-    if(!id || !status) return;
+    if(!id) return;
 
     const { data, error } = await supabase
         .from("orders")
