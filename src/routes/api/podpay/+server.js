@@ -14,7 +14,7 @@ const updateOrderStatus = async (id, status, approved_at, canceled_at) => {
 }
 
 const updatePaymentStatus = async (id, status, paid_at, canceled_at) => {
-    if(!reference || !status) return;
+    if(!id || !status) return;
 
     const { data, error } = await supabase
         .from("payments")
