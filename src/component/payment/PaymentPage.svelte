@@ -66,6 +66,12 @@
             clearInterval(interval);
         }
     });
+
+    $effect(() => {
+        if(order.status == "approved"){
+            untrack(() => drawer.openDrawer());
+        }
+    });
 </script>
 
 {#if order && payment}

@@ -2,6 +2,7 @@
     import { onMount, untrack } from 'svelte';
     import { addHoursToDate } from '$lib/datetime';
     import { getCardInstallments } from '$lib/card.js';
+    import { compareArray } from '$lib/array.js';
 
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
 
@@ -17,7 +18,6 @@
     import OrderPage from '$component/order/OrderPage.svelte';
     import ToastNotification from '$component/ToastNotification.svelte';
     import WhitePage from '$component/WhitePage.svelte';
-    import { compareArray } from '$lib/array.js';
 
     let { data } = $props();
 
@@ -36,6 +36,7 @@
     let saved = $state(false);
     let ready = $state(false);
     let method = $state(null);
+    let interval = $state(null);
 
     let price = $derived(prices?.find(item => item.is_selected) || prices?.reduce((a, b) => a.promotional < b.promotional ? a : b));
 
@@ -229,6 +230,26 @@
             ready = true;
         }
     }
+    const checkPayment = async () => {
+        const request = await fetch("/api/order/status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: order?.id
+            })
+        });
+
+        if(request.status == 200){
+            let response = await request.json();
+            if(response.status == "approved"){
+                clearInterval(interval);
+                
+                order.status = response?.status;
+                order.approved_at = response?.approved_at;
+                order.canceled_at = response?.canceled_at;
+            }
+        }
+    }
     const createOrder = async () => {
         const request = await fetch("/api/order", {
             method: "POST",
@@ -250,6 +271,8 @@
             let response = await request.json();
             order = response.order;
             payment = response.payment;
+
+            interval = setInterval(checkPayment, 5000);
         }
     }
 

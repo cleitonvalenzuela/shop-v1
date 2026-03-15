@@ -2,7 +2,7 @@
     import { firstAndLastName, formatDate, formatPrice, formatTimer, maskPhone } from "$lib/formating";
     import { addHoursToDate, getSecondsBetweenDates } from "$lib/datetime";
     import { copyText } from "$lib/clipboard";
-    import { onMount } from "svelte";
+    import { onMount, untrack } from "svelte";
 
     import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
 
@@ -53,6 +53,12 @@
     onMount(() => {
         if(order?.status != "approved"){
             setTimeout(popup.openPopup, 300);
+        }
+    });
+
+    $effect(() => {
+        if(order.status == "approved"){
+            untrack(() => success_drawer.openDrawer());
         }
     });
 </script>
