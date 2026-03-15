@@ -50,14 +50,14 @@ export const POST = async ({ request, locals }) => {
         const reference = data?.id;
         const paid_at = data?.paidAt;
         const canceled_at = data?.canceledAt;
-        
+
         let status = data?.status;
 
         const payment = await getPaymentByReference(reference);
         if(payment.status != "canceled"){
             status = status == "waiting_payment" ? "pending" : status;
-            updatePaymentStatus(payment?.id, status, approved_at, canceled_at);
-            updateOrderStatus(payment?.order?.id, status, approved_at, canceled_at);
+            updatePaymentStatus(payment?.id, status, paid_at, canceled_at);
+            updateOrderStatus(payment?.order?.id, status, paid_at, canceled_at);
         }
     }
 
