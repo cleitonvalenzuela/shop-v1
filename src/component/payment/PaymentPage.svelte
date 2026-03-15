@@ -68,7 +68,7 @@
     });
 
     $effect(() => {
-        if(order.status == "approved"){
+        if(order?.status == "approved"){
             untrack(() => drawer.openDrawer());
         }
     });
