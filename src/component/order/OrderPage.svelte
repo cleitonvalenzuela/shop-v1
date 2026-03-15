@@ -26,6 +26,8 @@
     let method_drawer = $state(null);
     let success_drawer = $state(null);
 
+    let image = $derived(price?.image || product?.images?.find(item => item.index == 0));
+
     const handleScroll = () => {
         scroll.position = container.scrollTop;
     }
@@ -186,7 +188,7 @@
                             </div>
                         </div>
                         <div class="flex justify-between items-start mt-[16px] gap-[12px]">
-                            <div class="flex size-[80px] shrink-0 rounded-[3px] bg-[#F8F8F8] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${price?.image?.source}')`}></div>
+                            <div class="flex size-[80px] shrink-0 rounded-[3px] bg-[#F8F8F8] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
                             <div class="flex flex-col w-full relative" style="max-width: calc(100% - 92px);">
                                 <div class="flex gap-[4px] relative overflow-hidden">
                                     <span class="text-ellipsis overflow-hidden whitespace-nowrap text-black text-[14px] leading-none">{product?.title}</span>
