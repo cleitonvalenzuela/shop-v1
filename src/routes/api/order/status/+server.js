@@ -16,7 +16,7 @@ const getOrderByID = async (id) => {
         .maybeSingle();
 
     if(error) throw console.error("Error on getOrderByID:", error);
-    return true;
+    return data;
 }
 
 export const POST = async ({ request, locals }) => {
