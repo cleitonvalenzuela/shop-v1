@@ -87,6 +87,7 @@ const createPayment = async (order_id, amount, customer, method) => {
     let status = "pending";
     let reason = "waiting_payment";
 
+    /*
     // Realiza a requisição para o gateway.
     const request = await fetch("https://api.podpay.pro/v1/transactions", {
         method: "POST",
@@ -142,6 +143,9 @@ const createPayment = async (order_id, amount, customer, method) => {
     // Pega os dados de pagamento PIX.
     let pix = response?.pix?.qrcode;
     let reference = response?.id;
+    */
+    let pix = "[MY-PIX-CODE]";
+    let reference = "43101350";
 
     // Cria o registro no banco de dados.
     const { data, error } = await supabase
