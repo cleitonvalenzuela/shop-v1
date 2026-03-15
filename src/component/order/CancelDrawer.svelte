@@ -76,7 +76,7 @@
             <span class="text-black text-[16px] font-bold leading-none">Conte por que cancelou</span>
         </div>
         <span class="w-full h-[1px] bg-[#eeeeee]"></span>
-        <div bind:this={container} class="flex flex-col w-full transparent-scroll px-[16px] scrollable overflow-y-scroll" style="max-height: calc(100% - 150px);">
+        <div bind:this={container} class="flex flex-col w-full transparent-scroll px-[16px] scrollable overflow-y-scroll" style={`${session?.os?.name == "iOS" ? "max-height: calc(100% - 150px" : "max-height: calc(100% - 116px"}`}>
             <div class="flex flex-col w-full">
                 {#each reasons as reason, index}
                     {#if index > 0}
