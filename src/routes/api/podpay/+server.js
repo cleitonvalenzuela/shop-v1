@@ -7,7 +7,7 @@ const updateOrderStatus = async (id, status, approved_at, canceled_at) => {
     const { data, error } = await supabase
         .from("order")
         .update({ status, approved_at, canceled_at})
-        .eq("payment_id", id);
+        .eq("id", id);
 
     if(error) throw console.error("Error on UpdateOrderStatus:", error);
     return true;
