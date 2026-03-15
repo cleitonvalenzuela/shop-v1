@@ -5,7 +5,7 @@ const updateOrderStatus = async (id, status, approved_at, canceled_at) => {
     if(!id || !status) return;
 
     const { data, error } = await supabase
-        .from("order")
+        .from("orders")
         .update({ status, approved_at, canceled_at})
         .eq("id", id);
 
@@ -56,8 +56,8 @@ export const POST = async ({ request, locals }) => {
         const payment = await getPaymentByReference(reference);
         if(payment.status != "canceled"){
             status = status == "waiting_payment" ? "pending" : status;
-            updatePaymentStatus(payment?.id, status, paid_at, canceled_at);
-            updateOrderStatus(payment?.order?.id, status, paid_at, canceled_at);
+            await updatePaymentStatus(payment?.id, status, paid_at, canceled_at);
+            await updateOrderStatus(payment?.order?.id, status, paid_at, canceled_at);
         }
     }
 
