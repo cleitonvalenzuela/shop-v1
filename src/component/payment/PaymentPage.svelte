@@ -13,6 +13,7 @@
 
     let container = $state(null);
     let toast = $state(null);
+    let waiting = $state(false);
     let drawer = $state(null);
     let timer = $state(0);
     let interval = $state(null);
@@ -62,13 +63,17 @@
         updateTimer();
         interval = setInterval(updateTimer, 1000);
 
+        if(order?.status != "approved"){
+            waiting = true;
+        }
+
         return () => {
             clearInterval(interval);
         }
     });
 
     $effect(() => {
-        if(order?.status == "approved"){
+        if(waiting && order?.status == "approved"){
             untrack(() => drawer.openDrawer());
         }
     });

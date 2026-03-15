@@ -16,7 +16,7 @@
     let { session, product, costs, discounts, address, installments, cards, customer, total, method, variants, price, order, payment, quantity, updateOrder=()=>{}, updatePayment=()=>{}, updateMethod=()=>{}, updatePage=()=>{} } = $props();
 
     let container = $state(null);
-    let ready = $state(false);
+    let waiting = $state(false);
     let toast = $state(null);
     let popup = $state(null);
     let confirmed = $state(false);
@@ -53,11 +53,12 @@
     onMount(() => {
         if(order?.status != "approved"){
             setTimeout(popup.openPopup, 300);
+            waiting = true;
         }
     });
 
     $effect(() => {
-        if(order?.status == "approved"){
+        if(waiting && order?.status == "approved"){
             untrack(() => success_drawer.openDrawer());
         }
     });
