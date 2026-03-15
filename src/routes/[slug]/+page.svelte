@@ -207,7 +207,6 @@
         const ids = variants.map(item => item.id);
         prices.map((item, index) => {
             if(compareArray(item.variants, ids)){
-                console.log(item);
                 prices[index].is_selected = true;
             }
             else{

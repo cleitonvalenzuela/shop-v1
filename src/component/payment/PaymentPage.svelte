@@ -85,7 +85,7 @@
                 </div>
                 <div class="flex w-[56px] items-center"></div>
             </header>
-            <main bind:this={container} onscroll={handlerScroll} class="flex flex-col w-full scrollable pt-[48px] px-[16px]">
+            <main bind:this={container} onscroll={handleScroll} class="flex flex-col w-full scrollable pt-[48px] px-[16px]">
                 <div class="flex justify-between items-center mt-[13px]">
                     {#if payment?.status == "approved"}
                         <span class="text-black text-[22px] font-bold leading-[30px]">Pagamento aprovado <br/>R$ {formatPrice(payment?.amount)}</span>
