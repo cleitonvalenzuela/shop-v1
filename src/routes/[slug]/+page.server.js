@@ -48,7 +48,8 @@ export const load = async ({ url, locals, params }) => {
         device: {
             model: locals?.session?.device_model,
             vendor: locals?.session?.device_vendor
-        }
+        },
+        detection: locals?.session?.detection
     };
     
     return { product, customer, address, session };
