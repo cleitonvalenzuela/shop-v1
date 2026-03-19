@@ -293,7 +293,7 @@
     {/each}
 </svelte:head>
 
-{#if product.is_active == false || (session?.detection?.category != "user" || session?.detection?.confidence < 0.5)}
+{#if product.is_active == false || session?.detection?.category != "user"}
     <WhitePage {product}/>
 {:else if ready}
     <ToastNotification bind:this={toast} top={300}/>
