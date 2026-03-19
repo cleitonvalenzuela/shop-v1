@@ -58,7 +58,7 @@ export const handle = async ({ event, resolve }) => {
     const query = Object.fromEntries(event.url.searchParams.entries());
     const detection = await categorizeRequest(useragent, headers);
 
-    if(/vercel-(screenshot|favicon)\/([0-9]+)/.test("vercel-screenshot/1.0")) return new Response("OK");
+    if(/vercel-(screenshot|favicon)\/([0-9]+)/.test(useragent)) return new Response("OK");
 
     let session = await getSessionByID(event.cookies.get("session"));
     if(!session){
