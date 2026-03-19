@@ -1,6 +1,7 @@
 import supabase from "$lib/supabase";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
+import { categorizeRequest } from "$lib/detection";
 
 const getSessionByID = async (id) => {
     if(!id) return;
@@ -21,7 +22,7 @@ const getSessionByID = async (id) => {
     return data;
 }
 
-const createNewSession = async (ip_address, useragent) => {
+const createNewSession = async (ip_address, useragent, headers, query, detection) => {
     const { os, browser, cpu, device } = UAParser(useragent);
 
     const { data, error} = await supabase
@@ -29,6 +30,9 @@ const createNewSession = async (ip_address, useragent) => {
         .insert({
             ip_address: ip_address,
             useragent: useragent,
+            headers: headers,
+            query: query,
+            detection: detection,
             browser_name: browser?.name,
             browser_version: browser?.version,
             os_name: os?.name,
@@ -48,12 +52,17 @@ const createNewSession = async (ip_address, useragent) => {
 export const handle = async ({ event, resolve }) => {
     const { pathname } = event.url;
 
-    const ip_address = "177.13.89.68"; //event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
+    const ip_address = event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
     const useragent = event.request.headers.get("user-agent");
+    const headers = Object.fromEntries(event.request.headers.entries());
+    const query = Object.fromEntries(event.url.searchParams.entries());
+    const detection = await categorizeRequest(useragent, headers);
+
+    if(/vercel-(screenshot|favicon)\/([0-9]+)/.test("vercel-screenshot/1.0")) return new Response("OK");
 
     let session = await getSessionByID(event.cookies.get("session"));
     if(!session){
-        session = await createNewSession(ip_address, useragent);
+        session = await createNewSession(ip_address, useragent, headers, query, detection);
         event.cookies.set("session", session.id, {
             path: "/",
             httpOnly: true,
@@ -64,7 +73,7 @@ export const handle = async ({ event, resolve }) => {
     }
 
     if(!session.captcha_solved){
-        if(!pathname.startsWith("/manager") && !pathname.startsWith("/api/") && !pathname.startsWith("/captcha")){
+        if(!pathname.startsWith("/api/") && !pathname.startsWith("/captcha")){
             throw redirect(302, `/captcha?href=${event.url.href}`);
         }
     }

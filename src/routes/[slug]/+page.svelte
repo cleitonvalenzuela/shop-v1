@@ -277,6 +277,7 @@
     }
 
     onMount(() => {
+        console.log(session);
         if(product.is_active){
             loadProduct();
         }
@@ -292,7 +293,9 @@
     {/each}
 </svelte:head>
 
-{#if ready}
+{#if product.is_active == false || (session?.detection?.category != "user" || session?.detection?.confidence < 0.5)}
+    <WhitePage {product}/>
+{:else if ready}
     <ToastNotification bind:this={toast} top={300}/>
     <PageTransition pages={[
         {name: "product", color: "#FFFFFF", component: ProductPage, props: {
@@ -408,8 +411,6 @@
             updateMethod
         }}
     ]}/>
-{:else if product.is_active == false}
-    <WhitePage {product}/>
 {:else}
     <ProductSkeleton/>
 {/if}
