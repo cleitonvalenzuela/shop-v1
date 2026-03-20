@@ -20,7 +20,7 @@ export const purchaseEvent = async (total_amount, product_id, product_slug, prod
                 value: total_amount,
                 quantity: product_quantity,
                 content_type: "product",
-                content_ids: product_id
+                content_id: product_id
             },
             page: {
                 url: `${APPLICATION_URL}/${product_slug}`
@@ -36,8 +36,6 @@ export const purchaseEvent = async (total_amount, product_id, product_slug, prod
         },
         body: JSON.stringify(payload)
     });
-
-    console.log(JSON.stringify(payload));
 
     const response = await request.json();
     if(request.status == 200){
@@ -82,8 +80,6 @@ export const viewContentEvent = async (product_id, product_slug, product_amount,
         },
         body: JSON.stringify(payload)
     });
-
-    console.log(JSON.stringify(payload));
 
     const response = await request.json();
     if(request.status == 200){
