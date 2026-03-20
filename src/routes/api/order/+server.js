@@ -34,6 +34,7 @@ const getProductByID = async (id) => {
     .from("products")
     .select(`
         id,
+        slug,
         shipping:shippings(id, name, deadline, price:prices(id, regular, promotional))
     `)
     .match({ id, is_active: true })
@@ -194,7 +195,7 @@ export const POST = async ({ request, locals, cookies }) => {
     let payment = await createPayment(order?.id, total, customer, method);
 
     // Dispara o evento de compra no pixel do Tiktok.
-    await purchaseEvent(total, product_id, quantity, customer_id, customer?.email, customer?.phone, session?.ttclid, session?.ip_address, session?.useragent);
+    await purchaseEvent(total, product_id, product?.slug, quantity, customer_id, customer?.email, customer?.phone, session?.ttclid, session?.ip_address, session?.useragent);
 
     // Retornar os dados.
     return json({ order, payment });

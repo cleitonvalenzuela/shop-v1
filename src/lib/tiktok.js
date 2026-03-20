@@ -1,9 +1,7 @@
-import { TIKTOK_PIXEL_ID, TIKTOK_PIXEL_TOKEN } from "$env/static/private";
+import { TIKTOK_API_URL, TIKTOK_PIXEL_ID, TIKTOK_PIXEL_TOKEN, APPLICATION_URL } from "$env/static/private";
 
-export const purchaseEvent = async (total_amount, product_id, product_quantity, user_id, user_email, user_phone, session_ttclid, session_ip, session_useragent) => {
-    const url = "https://business-api.tiktok.com/open_api/v1.3/event/track/";
-
-    const request = await fetch(url, {
+export const purchaseEvent = async (total_amount, product_id, product_slug, product_quantity, user_id, user_email, user_phone, session_ttclid, session_ip, session_useragent) => {
+    const request = await fetch(TIKTOK_API_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -31,8 +29,7 @@ export const purchaseEvent = async (total_amount, product_id, product_quantity, 
                     content_ids: product_id
                 },
                 page: {
-                    url: null,
-                    referrer: null
+                    url: `${APPLICATION_URL}/${product_slug}`
                 }
             }]
         })
@@ -43,10 +40,8 @@ export const purchaseEvent = async (total_amount, product_id, product_quantity, 
     return true;
 }
 
-export const viewContentEvent = async (product_id, product_amount, product_quantity, session_ttclid, session_ip, session_useragent) => {
-    const url = "https://business-api.tiktok.com/open_api/v1.3/event/track/";
-
-    const request = await fetch(url, {
+export const viewContentEvent = async (product_id, product_slug, product_amount, product_quantity, session_ttclid, session_ip, session_useragent) => {
+    const request = await fetch(TIKTOK_API_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -71,8 +66,7 @@ export const viewContentEvent = async (product_id, product_amount, product_quant
                     content_id: product_id
                 },
                 page: {
-                    url: null,
-                    referrer: null
+                    url: `${APPLICATION_URL}/${product_slug}`
                 }
             }]
         })

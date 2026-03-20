@@ -12,6 +12,7 @@ const getProductBySlug = async (slug) => {
             id,
             store_id,
             title,
+            slug,
             is_active,
             images:images(id, source, index),
             prices:prices(id, variants, regular, promotional, is_selected)
@@ -60,7 +61,7 @@ export const load = async ({ url, locals, params }) => {
     const price = product?.prices?.reduce((a, b) => a.promotional < b.promotional ? a : b);
 
     // Dispara o evento de visualização de conteudo.
-    await viewContentEvent(product?.id, price?.promotional, 1, session?.ttclid, session?.ip, session?.useragent);
+    await viewContentEvent(product?.id, product?.slug, price?.promotional, 1, session?.ttclid, session?.ip, session?.useragent);
     
     // Retorna os dados para o cliente.
     return { product, customer, address, session };
