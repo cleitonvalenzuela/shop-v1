@@ -37,7 +37,7 @@ export const purchaseEvent = async (total_amount, product_id, product_slug, prod
         body: JSON.stringify(payload)
     });
 
-    console.log(payload);
+    console.log(JSON.stringify(payload));
 
     const response = await request.json();
     if(request.status == 200){
@@ -83,7 +83,7 @@ export const viewContentEvent = async (product_id, product_slug, product_amount,
         body: JSON.stringify(payload)
     });
 
-    console.log(payload);
+    console.log(JSON.stringify(payload));
 
     const response = await request.json();
     if(request.status == 200){
