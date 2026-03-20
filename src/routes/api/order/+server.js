@@ -2,8 +2,9 @@ import { error, json } from '@sveltejs/kit';
 import supabase from "$lib/supabase";
 import { stringify } from "querystring";
 import { getRandomNumber } from '$lib/random';
-import { addHoursToDate } from '$lib/datetime.js';
-import { getShippingRange } from '$lib/shipping.js';
+import { addHoursToDate } from '$lib/datetime';
+import { getShippingRange } from '$lib/shipping';
+import { purchaseEvent } from '$lib/tiktok';
 
 import { PODPAY_PUBLIC_KEY, PODPAY_PRIVATE_KEY } from '$env/static/private';
 
@@ -179,7 +180,7 @@ export const POST = async ({ request, locals, cookies }) => {
     } = await request.json();
 
     // Pega os dados da sessão.
-    let session_id = locals?.session?.id;
+    let session = locals?.session;
 
     // Pega o prazo de entrega.
     let product = await getProductByID(product_id);
@@ -189,8 +190,11 @@ export const POST = async ({ request, locals, cookies }) => {
     let customer = await getCustomerByID(customer_id);
 
     // Cria o pedido e o pagamento.
-    let order = await createOrder(product_id, address_id, customer_id, price_id, session_id, deadline, costs, quantity, discounts, total);
+    let order = await createOrder(product_id, address_id, customer?.id, price_id, session?.id, deadline, costs, quantity, discounts, total);
     let payment = await createPayment(order?.id, total, customer, method);
+
+    // Dispara o evento de compra no pixel do Tiktok.
+    await purchaseEvent(total, product_id, customer_id, customer?.email, customer?.phone, session?.ttclid, session?.ip_address, session?.useragent);
 
     // Retornar os dados.
     return json({ order, payment });
