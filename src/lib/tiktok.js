@@ -36,8 +36,13 @@ export const purchaseEvent = async (total_amount, product_id, product_slug, prod
     });
 
     const response = await request.json();
-    console.log("Purchase", request.status, JSON.stringify(response));
-    return true;
+    if(request.status == 200){
+        return true
+    }
+    else{
+        console.error(`Error on purchaseEvent ${request.status}: ${JSON.stringify(error)}`);
+        return false;
+    }
 }
 
 export const viewContentEvent = async (product_id, product_slug, product_amount, product_quantity, session_ttclid, session_ip, session_useragent) => {
@@ -73,6 +78,11 @@ export const viewContentEvent = async (product_id, product_slug, product_amount,
     });
 
     const response = await request.json();
-    console.log("PageView", request.status, JSON.stringify(response));
-    return true;
+    if(request.status == 200){
+        return true
+    }
+    else{
+        console.error(`Error on viewContentEvent ${request.status}: ${JSON.stringify(error)}`);
+        return false;
+    }
 }
