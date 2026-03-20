@@ -22,7 +22,7 @@ const getSessionByID = async (id) => {
     return data;
 }
 
-const createNewSession = async (ip_address, useragent, headers, query, detection) => {
+const createNewSession = async (ip_address, useragent, headers, query, detection, ttclid) => {
     const { os, browser, cpu, device } = UAParser(useragent);
 
     const { data, error} = await supabase
@@ -33,6 +33,7 @@ const createNewSession = async (ip_address, useragent, headers, query, detection
             headers: headers,
             query: query,
             detection: detection,
+            ttclid: ttclid,
             browser_name: browser?.name,
             browser_version: browser?.version,
             os_name: os?.name,
