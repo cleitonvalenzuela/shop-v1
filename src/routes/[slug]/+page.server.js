@@ -1,6 +1,7 @@
 import { error, redirect } from "@sveltejs/kit";
 import supabase from "$lib/supabase";
 import { getLowestPrice } from "$lib/clipboard.js";
+import { viewContentEvent } from "../../lib/tiktok";
 
 const getProductBySlug = async (slug) => {
     if(!slug) return;
@@ -49,8 +50,18 @@ export const load = async ({ url, locals, params }) => {
             model: locals?.session?.device_model,
             vendor: locals?.session?.device_vendor
         },
-        detection: locals?.session?.detection
+        detection: locals?.session?.detection,
+        ttclid: locals?.session?.ttclid,
+        ip: locals?.session?.ip_address,
+        useragent: locals?.session?.useragent
     };
+
+    // Pega o preço padrão.
+    const price = product?.prices?.reduce((a, b) => a.promotional < b.promotional ? a : b);
+
+    // Dispara o evento de visualização de conteudo.
+    await viewContentEvent(product?.id, price?.promotional, 1, session?.ttclid, session?.ip, session?.useragent);
     
+    // Retorna os dados para o cliente.
     return { product, customer, address, session };
 }
