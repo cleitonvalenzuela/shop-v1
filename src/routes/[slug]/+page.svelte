@@ -277,7 +277,6 @@
     }
 
     onMount(() => {
-        console.log(session);
         if(product.is_active){
             loadProduct();
         }

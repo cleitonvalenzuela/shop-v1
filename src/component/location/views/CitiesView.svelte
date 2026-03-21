@@ -15,6 +15,7 @@
     let initial = $derived(location?.city);
 
     const onScroll = () => {
+        console.log(childs);
         const last_scroll = scroll;
         const new_scroll = container?.scrollTop || 0;
 
