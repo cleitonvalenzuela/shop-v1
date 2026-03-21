@@ -1,6 +1,6 @@
 <script>
     import { removeAccent } from "$lib/formating";
-    import { onMount } from "svelte";
+    import { onMount, untrack } from "svelte";
     
     let { view, location, updateLocation=()=>{}, updateView=()=>{} } = $props();
 
@@ -80,12 +80,14 @@
 
     $effect(async () => {
         if(view == "cities"){
-            container?.scrollTo({ top: 0, behavior: "instant" });
+            untrack(async () => {
+                container?.scrollTo({ top: 0, behavior: "instant" });
 
-            if(location?.region?.id != initial?.id){
-                await loadCities();
-                initial = location?.region;
-            }
+                if(location?.region?.id != initial?.id){
+                    await loadCities();
+                    initial = location?.region;
+                }
+            });
         }
     });
 </script>
