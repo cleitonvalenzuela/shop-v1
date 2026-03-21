@@ -22,11 +22,13 @@
         scroll = new_scroll;
         
         Object.entries(childs).forEach(([key, value]) => {
-            const child_rect = value.getBoundingClientRect();
-            const container_rect = container.getBoundingClientRect();
+            if(key && value){
+                const child_rect = value.getBoundingClientRect();
+                const container_rect = container.getBoundingClientRect();
 
-            if (child_rect.top <= container_rect.top){
-                letter = key;
+                if (child_rect.top <= container_rect.top){
+                    letter = key;
+                }
             }
         });
     }
