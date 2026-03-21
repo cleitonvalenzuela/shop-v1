@@ -32,6 +32,7 @@
         });
     }
     const loadCities = async () => {
+        if(loading) return;
         loading = true;
 
         // tempo mínimo (em ms)
