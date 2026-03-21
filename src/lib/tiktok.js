@@ -1,6 +1,8 @@
 import { TIKTOK_API_URL, TIKTOK_PIXEL_ID, TIKTOK_PIXEL_TOKEN, APPLICATION_URL } from "$env/static/private";
 
 export const purchaseEvent = async (total_amount, product_id, product_slug, product_quantity, user_id, user_email, user_phone, session_ttclid, session_ip, session_useragent) => {
+    return;
+    
     const payload = {
         event_source: "web",
         event_source_id: TIKTOK_PIXEL_ID,
@@ -42,12 +44,14 @@ export const purchaseEvent = async (total_amount, product_id, product_slug, prod
         return true
     }
     else{
-        console.error(`Error on purchaseEvent ${request.status}: ${JSON.stringify(error)} ${JSON.stringify(payload)}`);
+        console.error(`Error on purchaseEvent ${request.status}: ${JSON.stringify(response)} ${JSON.stringify(payload)}`);
         return false;
     }
 }
 
 export const viewContentEvent = async (product_id, product_slug, product_amount, product_quantity, session_ttclid, session_ip, session_useragent) => {
+    return;
+    
     const payload = {
         event_source: "web",
         event_source_id: TIKTOK_PIXEL_ID,
@@ -86,7 +90,7 @@ export const viewContentEvent = async (product_id, product_slug, product_amount,
         return true
     }
     else{
-        console.error(`Error on viewContentEvent ${request.status}: ${JSON.stringify(error)} ${JSON.stringify(payload)}`);
+        console.error(`Error on viewContentEvent ${request.status}: ${JSON.stringify(response)} ${JSON.stringify(payload)}`);
         return false;
     }
 }
