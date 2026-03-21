@@ -41,7 +41,7 @@ const getProduct = async (id) => {
   .order("index", { foreignTable: "variations", ascending: true })
   .maybeSingle();
 
-  if(error) throw console.log(`Get product by id error: `, error);
+  if(error) throw console.error(`Get product by id error: `, error);
   return data;
 }
 

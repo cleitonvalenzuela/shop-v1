@@ -33,7 +33,7 @@ const getReviews = async (id, filter, page, limit) => {
         .order("index", { foreignTable: "images", ascending: true })
         .range(page * limit, (page * limit) + limit);
 
-    if(error) throw console.log(`Get reviews error: `, error);
+    if(error) throw console.error(`Get reviews error: `, error);
     return data;
 }
 

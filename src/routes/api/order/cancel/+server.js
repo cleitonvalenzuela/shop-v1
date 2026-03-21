@@ -19,7 +19,7 @@ const cancelOrderByID = async (order_id, reason) => {
         .single();
 
     // Retornar os dados.
-    if(error) throw console.log(`CancelOrderByID error: `, error);
+    if(error) throw console.error(`CancelOrderByID error: `, error);
     return data;
 }
 
@@ -38,7 +38,7 @@ const cancelPaymentsByOrder = async (order_id, reason) => {
         .single();
 
     // Retornar os dados.
-    if(error) throw console.log(`CancelPaymentsByOrder error: `, error);
+    if(error) throw console.error(`CancelPaymentsByOrder error: `, error);
     return data;
 }
 

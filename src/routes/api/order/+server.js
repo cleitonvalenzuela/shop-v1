@@ -23,7 +23,7 @@ const getCustomerByID = async (id) => {
     .match({ id, is_active: true })
     .maybeSingle();
 
-    if(error) throw console.log(`Get customer by id error: `, error);
+    if(error) throw console.error(`Get customer by id error: `, error);
     return data;
 }
 
@@ -40,7 +40,7 @@ const getProductByID = async (id) => {
     .match({ id, is_active: true })
     .maybeSingle();
 
-    if(error) throw console.log(`Get product by id error: `, error);
+    if(error) throw console.error(`Get product by id error: `, error);
     return data;
 }
 
@@ -74,7 +74,7 @@ const createOrder = async (product_id, address_id, customer_id, price_id, sessio
         .single();
 
     // Retornar os dados.
-    if(error) throw console.log(`CreateOrder error: `, error);
+    if(error) throw console.error(`CreateOrder error: `, error);
     return data;
 }
 
@@ -120,7 +120,7 @@ const createPayment = async (order_id, amount, customer, method) => {
     // Verifica a resposta da API.
     const response = await request.json();
     if(request.status != 200){
-        console.log(JSON.stringify({
+        console.error(JSON.stringify({
             "amount": amount * 100,
             "paymentMethod": "pix",
             "items": [{
@@ -138,7 +138,7 @@ const createPayment = async (order_id, amount, customer, method) => {
                 }
             }
         }));
-        throw console.log(`PodPay request error ${request.status}: `, JSON.stringify(response));
+        throw console.error(`PodPay request error ${request.status}: `, JSON.stringify(response));
     }
 
     // Pega os dados de pagamento PIX.
@@ -163,7 +163,7 @@ const createPayment = async (order_id, amount, customer, method) => {
         .single();
 
     // Retornar os dados.
-    if(error) throw console.log(`CreatePayment error: `, error);
+    if(error) throw console.error(`CreatePayment error: `, error);
     return data;
 }
 

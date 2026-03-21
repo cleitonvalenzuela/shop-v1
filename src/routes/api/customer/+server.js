@@ -24,7 +24,7 @@ const updateCustomer = async (id, fullname, email, phone, document, is_filled) =
         .single();
 
     // Retornar os dados.
-    if(error) throw console.log(`CreateCustomer error: `, error);
+    if(error) throw console.error(`CreateCustomer error: `, error);
     return data;
 }
 

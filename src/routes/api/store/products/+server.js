@@ -21,6 +21,6 @@ export const POST = async ({ request }) => {
         .eq("store_id", id)
         .eq("is_active", true);
 
-    if(error) throw console.log(`Get products by store error: `, error);
+    if(error) throw console.error(`Get products by store error: `, error);
     return json(data);
 }

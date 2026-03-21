@@ -32,7 +32,7 @@ const updateAddress = async (id, postal, district, street, number, unit, complem
         .single();
 
     // Retornar os dados.
-    if(error) throw console.log(`CreateAddress error: `, error);
+    if(error) throw console.error(`CreateAddress error: `, error);
     return data;
 }
 
