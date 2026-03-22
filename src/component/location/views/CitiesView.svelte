@@ -87,7 +87,7 @@
                 await loadCities();
                 initial = location?.region;
             }
-        });
+        };
     });
 </script>
 
