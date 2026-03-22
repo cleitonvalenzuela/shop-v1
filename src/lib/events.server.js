@@ -11,6 +11,6 @@ export const createEvent = async (session_id, name, _data) => {
         .select()
         .maybeSingle()
 
-    if(error) throw console.error(`Error on createEvent on server side: ${error}`);
+    if(error) throw console.error(`Error on createEvent on server side:`, error);
     return data;
 }
