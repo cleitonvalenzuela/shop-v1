@@ -80,17 +80,14 @@
     };
 
     $effect(async () => {
-        const region = location?.region;
         if(view == "cities"){
-            untrack(async () => {
-                container?.scrollTo({ top: 0, behavior: "instant" });
+            container?.scrollTo({ top: 0, behavior: "instant" });
 
-                if(region?.id != initial?.id){
-                    await loadCities();
-                    initial = region;
-                }
-            });
-        }
+            if(location?.region?.id != initial?.id){
+                await loadCities();
+                initial = location?.region;
+            }
+        });
     });
 </script>
 
