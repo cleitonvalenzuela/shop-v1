@@ -64,8 +64,6 @@
             locked = true;
             lockScroll();
         }
-
-        createEvent("resize", { window: { width: window_width, height: window_height }, viewport: { width: viewport_width, height: viewport_height } });
     };
     const handleScroll = (e) => {
         if(window.scrollY > 5 && !locked){
