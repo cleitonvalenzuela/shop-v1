@@ -24,6 +24,7 @@ const getReviews = async (id, filter, page, limit) => {
             likes,
             is_liked,
             is_preview,
+            created_at,
             ${filter == "images" ? "images:images!inner" : "images:images"}(id, source, index, review_id))`)
         .gte("rating", filter ? filters[filter].gte : 0)
         .lte("rating", filter ? filters[filter].lte : 5)

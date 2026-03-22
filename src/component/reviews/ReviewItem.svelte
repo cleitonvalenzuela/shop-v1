@@ -3,6 +3,7 @@
     import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
 
     import ReviewRating from "$component/product/reviews/ReviewRating.svelte";
+    import { formatDate } from "$lib/formating";
 
     let { review={}, images=[], openViewer=()=>{}, likeReview=()=>{}} = $props();
 </script>
@@ -33,7 +34,7 @@
         </div>
     {/if}
     <div class="flex justify-between items-center py-[5px]">
-        <span class="text-[#858585] text-[12px]">2025-12-10</span>
+        <span class="text-[#858585] text-[12px]">{formatDate(review?.created_at, "YYYY-MM-DD")}</span>
         <div class="flex items-center gap-[10px]">
             <button type="button" class="flex justify-center items-center w-[38px]" aria-label="Fechar">
                 <svg class="h-[4px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 49 11">
