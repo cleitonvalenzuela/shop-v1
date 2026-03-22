@@ -93,7 +93,7 @@
             </div>
             <div class="flex items-center gap-[2px] text-[#555858] text-[13px] leading-none">
                 <span>Receba até {deadline?.from}</span>
-                <span class="w-[4px] h-[1px] bg-black"></span>
+                <span class="w-[5px] h-[1px] bg-[#555858]"></span>
                 <span>{deadline?.to}</span>
             </div>
         </div>
