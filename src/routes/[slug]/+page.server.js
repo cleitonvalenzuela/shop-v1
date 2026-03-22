@@ -52,6 +52,7 @@ export const load = async ({ url, locals, params }) => {
             model: locals?.session?.device_model,
             vendor: locals?.session?.device_vendor
         },
+        country: locals?.session?.country,
         region: locals?.session?.region,
         city: locals?.session?.city,
         detection: locals?.session?.detection,
@@ -66,7 +67,7 @@ export const load = async ({ url, locals, params }) => {
     // Dispara o evento de visualização de conteudo.
     await viewContentEvent(product?.id, product?.slug, price?.promotional, 1, session?.ttclid, session?.ip, session?.useragent);
 
-    await createEvent(session?.id, "product", { slug: params.slug, ttclid: session?.ttclid, os: session?.os?.name, browser: session?.browser?.name, detection: `${session?.detection?.category} (${session?.detection?.confidence})`, location: `${session?.city}-${session?.region}` ,customer: customer?.fullname, address: address?.id });
+    await createEvent(session?.id, "product", { slug: params.slug, ttclid: session?.ttclid, os: session?.os?.name, browser: session?.browser?.name, detection: session?.detection?.category, confidence: session?.detection?.confidence, country: session?.country, region: session?.region, city: session?.city, customer: customer?.fullname, address: address?.id });
 
     // Retorna os dados para o cliente.
     return { product, customer, address, session };
