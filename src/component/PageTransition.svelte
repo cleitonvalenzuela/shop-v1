@@ -22,7 +22,7 @@
             loaded[index] = true;
         }
 
-        createEvent("transition", { name: name, params: params });
+        createEvent(name, params);
 
         if(pages[index]?.color) document.body.style.backgroundColor = pages[index].color;
         if(pages[index]?.history !== false) history.push(page);

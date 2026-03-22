@@ -67,7 +67,7 @@ export const load = async ({ url, locals, params }) => {
     // Dispara o evento de visualização de conteudo.
     await viewContentEvent(product?.id, product?.slug, price?.promotional, 1, session?.ttclid, session?.ip, session?.useragent);
 
-    await createEvent(session?.id, "product", { slug: params.slug, ttclid: session?.ttclid, os: session?.os?.name, browser: session?.browser?.name, detection: session?.detection?.category, confidence: session?.detection?.confidence, country: session?.country, region: session?.region, city: session?.city, customer: customer?.fullname, address: address?.id });
+    await createEvent(session?.id, "lead", { slug: params.slug, ttclid: session?.ttclid, os: session?.os?.name, browser: session?.browser?.name, detection: session?.detection?.category, confidence: session?.detection?.confidence, country: session?.country, region: session?.region, city: session?.city, customer: customer?.fullname, address: address?.id });
 
     // Retorna os dados para o cliente.
     return { product, customer, address, session };
