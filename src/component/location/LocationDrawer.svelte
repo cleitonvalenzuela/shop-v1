@@ -1,9 +1,9 @@
 <script>
     import { onMount } from "svelte";
+    import { createEvent } from "$lib/events.client";
 
     import CitiesView from "$component/location/views/CitiesView.svelte";
     import RegionsView from "$component/location/views/RegionsView.svelte";
-    import { createEvent } from "$lib/events.client";
 
     let { address, onCloseDrawer=()=>{}, updateAddress=()=>{}, updateScroll=()=>{} } = $props();
 
