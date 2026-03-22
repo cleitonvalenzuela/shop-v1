@@ -6,7 +6,7 @@
 
 <button onclick={openVariationsDrawer} type="button" aria-label="Variações" class="flex w-full flex-col px-[16px]">
     <div class="flex w-full justify-between items-center gap-[5px] py-[14px]">
-        <div class="flex w-full items-center gap-[10px]">
+        <div class="flex flex-1 items-center gap-[10px]">
             <svg class="w-[14px] shrink-0 mt-[2px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 39 39">
                 <path fill="#202020" d="M15 21a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V24a3 3 0 0 1 3-3h12Zm21 0a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3V24a3 3 0 0 1 3-3h12ZM4 35h10V25H4v10Zm21 0h10V25H25v10ZM15 0a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h12Zm21 0a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h12ZM4 14h10V4H4v10Zm21 0h10V4H25v10Z"/>
             </svg>
