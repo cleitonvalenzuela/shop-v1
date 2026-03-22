@@ -284,7 +284,7 @@
         const current_performance = performance.now();
         current_frames++;
         if(current_performance - last_performance >= 1000){
-            if(current_frames < 60){
+            if(current_frames < 50){
                 createEvent("frames", { value: current_frames });
             }
             current_frames = 0;
