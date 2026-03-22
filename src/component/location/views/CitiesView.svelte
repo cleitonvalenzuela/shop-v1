@@ -32,6 +32,7 @@
         });
     }
     const loadCities = async () => {
+        console.log("loading city");
         if(loading) return;
         loading = true;
 
@@ -77,17 +78,23 @@
         }
 
         loading = false;
+        console.log("finished loading city");
     };
 
     $effect(async () => {
+        console.log("Calling effect");
         if(view == "cities"){
-            container?.scrollTo({ top: 0, behavior: "instant" });
+            console.log("View is cities");
+            untrack(async () => {
+                container?.scrollTo({ top: 0, behavior: "instant" });
 
-            if(location?.region?.id != initial?.id){
-                await loadCities();
-                initial = location?.region;
-            }
-        };
+                if(location?.region?.id != initial?.id){
+                    console.log("region_id != initial_region_id");
+                    await loadCities();
+                    initial = location?.region;
+                }
+            });
+        }
     });
 </script>
 
