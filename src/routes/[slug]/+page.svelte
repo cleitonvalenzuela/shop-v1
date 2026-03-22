@@ -39,6 +39,9 @@
     let method = $state(null);
     let interval = $state(null);
 
+    let last_performance = $state(null);
+    let current_frames = $state(0);
+
     let price = $derived(prices?.find(item => item.is_selected) || prices?.reduce((a, b) => a.promotional < b.promotional ? a : b));
 
     let coupons = $derived(product?.coupons);
@@ -277,9 +280,24 @@
             interval = setInterval(checkPayment, 5000);
         }
     }
+    const observeFrames = () => {
+        const current_performance = performance.now();
+        current_frames++;
+        if(current_performance - last_performance >= 1000){
+            if(current_frames < 60){
+                createEvent("fps", { value: current_frames });
+            }
+            current_frames = 0;
+            last_performance = current_performance;
+        }
+        requestAnimationFrame(observeFrames);
+    }
 
     onMount(() => {
+        last_performance = performance.now();
+
         if(product.is_active){
+            observeFrames();
             loadProduct();
         }
     });

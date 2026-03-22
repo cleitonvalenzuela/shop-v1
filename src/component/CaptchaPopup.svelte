@@ -15,6 +15,7 @@
     let target = $state(0);
     let left = $state(0);
     let start = $state(0);
+    let time = $state(0);
 
     let dragging = $state(false);
     let failed = $state(false);
@@ -77,7 +78,7 @@
         processing = true;
 
         if (Math.abs(target_px - left) <= (tolerance * canvas_width)) {
-            createEvent("captcha", { success: true });
+            createEvent("captcha", { status: "approved" });
             await fetch("/api/captcha", { method: "POST" });
 
             solved = true;
@@ -93,7 +94,7 @@
                 processing = false;
 
                 setTimeout(() => {
-                    createEvent("captcha", { success: false });
+                    createEvent("captcha", { status: "failed" });
                     updateCaptcha();
 
                     failed = false;
@@ -128,6 +129,7 @@
         setTimeout(() => {
             openPopup();
             updateCaptcha();
+            createEvent("captcha", { status: "loaded" });
         }, 100);
 
         return () => {
