@@ -91,7 +91,11 @@
                     {/if}
                 </div>
             </div>
-            <div class="text-[#555858] text-[13px]">Receba até {deadline?.from}-{deadline?.to}</div>
+            <div class="flex items-center gap-[2px] text-[#555858] text-[13px] leading-none">
+                <span>Receba até {deadline?.from}</span>
+                <span class="w-[4px] h-[1px] bg-black"></span>
+                <span>{deadline?.to}</span>
+            </div>
         </div>
     </div>
 </div>
