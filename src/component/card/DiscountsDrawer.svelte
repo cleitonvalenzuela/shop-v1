@@ -1,6 +1,6 @@
 <script>
     import { formatPrice } from "$lib/formating";
-    import { createEvent } from "-$lib/events.client";
+    import { createEvent } from "$lib/events.client";
 
     let { product, updateScroll=()=>{} } = $props();
 
