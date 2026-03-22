@@ -1,7 +1,8 @@
 import { error, redirect } from "@sveltejs/kit";
 import supabase from "$lib/supabase";
 import { getLowestPrice } from "$lib/clipboard.js";
-import { viewContentEvent } from "../../lib/tiktok";
+import { viewContentEvent } from "$lib/tiktok";
+import { createEvent } from "$lib/events.server";
 
 const getProductBySlug = async (slug) => {
     if(!slug) return;
@@ -29,6 +30,8 @@ export const load = async ({ url, locals, params }) => {
     // Busca os dados do produto.
     const product = await getProductBySlug(params.slug);
     if(!product) throw error(404, "Page not found");
+
+    const session = locals?.session;
 
     // Pega os dados do cliente.
     const customer = locals?.session?.customer || {};
@@ -62,7 +65,9 @@ export const load = async ({ url, locals, params }) => {
 
     // Dispara o evento de visualização de conteudo.
     await viewContentEvent(product?.id, product?.slug, price?.promotional, 1, session?.ttclid, session?.ip, session?.useragent);
-    
+
+    await createEvent(session?.id, "product", { slug: params.slug, customer: customer?.fullname, address: address?.id });
+
     // Retorna os dados para o cliente.
     return { product, customer, address, session };
 }
