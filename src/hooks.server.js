@@ -120,7 +120,7 @@ const customHandle = async ({ event, resolve }) => {
 const customErrorHandler = async ({ error, event }) => {
     const session = event?.locals?.session;
     await createEvent(session?.id, "error", { env: "server", value: `${error?.name}: ${error?.message}` });
-    return `${error?.name}: ${error?.message}`;
+    return error;
 };
 
 export const handleError = Sentry.handleErrorWithSentry(customErrorHandler);
