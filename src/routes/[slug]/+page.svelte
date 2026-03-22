@@ -285,7 +285,7 @@
         current_frames++;
         if(current_performance - last_performance >= 1000){
             if(current_frames < 60){
-                createEvent("fps", { value: current_frames });
+                createEvent("frames", { value: current_frames });
             }
             current_frames = 0;
             last_performance = current_performance;
