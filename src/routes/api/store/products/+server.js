@@ -6,21 +6,15 @@ export const POST = async ({ request }) => {
     if(!id)return error(400);
 
     const { data, error } = await supabase
-        .from("products")
+        .from("more")
         .select(`
             id,
-            title,
-            rating,
-            total_sales,
-            total_reviews,
-            flash_sale,
-            images:images(id, source, index),
-            prices:prices(id, regular, promotional),
-            coupons:coupons(id, type, category, minimum, limit, origin, discount, is_applied, is_redeemed)
+            image:images(id, source),
+            price:prices(id, regular, promotional)
         `)
         .eq("store_id", id)
         .eq("is_active", true);
 
-    if(error) throw console.error(`Get products by store error: `, error);
+    if(error) throw console.error(`Get more products by store error: `, error);
     return json(data);
 }
