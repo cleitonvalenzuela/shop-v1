@@ -8,7 +8,7 @@
 
 <ProtetionsDrawer bind:this={drawer} {updateScroll}/>
 
-<button type="button" onclick={() => drawer.openDrawer()} class="flex w-full justify-between items-start gap-[5px] px-[16px] py-[12px] bg-linear-to-b from-[#FFF8EE] to-[#FFFBF5]">
+<button type="button" onclick={() => drawer.openDrawer()} class="flex w-full justify-between items-start gap-[5px] px-[16px] py-[12px] bg-white">
     <div class="flex items-start gap-[10px]">
         <svg class="w-[13px] shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 38 47">
             <path fill="#895109" d="M17 .794c1-.834 2.5-1.262 4.027 0 4.48 3.702 8.208 5.527 14.473 6.793C37 7.89 38 9.042 38 10.542v14.5c0 6-8.209 15.952-19 21-11.09-5.715-19-15-19-21v-14.5c0-1.5 1-2.637 3-3.055 5.799-1.211 9.51-2.946 14-6.693Zm.5 24.748-4.5-4-2.5 2.5 7.5 7 10-14-3-2-7.5 10.5Z"/>
