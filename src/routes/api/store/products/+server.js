@@ -13,7 +13,8 @@ export const POST = async ({ request }) => {
             price:prices(id, regular, promotional)
         `)
         .eq("store_id", id)
-        .eq("is_active", true);
+        .eq("is_active", true)
+        .order("index", { ascending: true });
 
     if(error) throw console.error(`Get more products by store error: `, error);
     return json(data);
