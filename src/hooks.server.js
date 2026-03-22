@@ -1,8 +1,9 @@
 import supabase from "$lib/supabase";
+import * as Sentry from "@sentry/sveltekit";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
 import { categorizeRequest } from "$lib/detection";
-import { createEvent } from "./lib/events.server";
+import { createEvent } from "$lib/events.server";
 
 const getSessionByID = async (id) => {
     if(!id) return;
@@ -67,13 +68,7 @@ const updateSessionTTCLID = async (session_id, ttclid) => {
     return data;
 }
 
-export const handleError = async ({ error, event }) => {
-    const session = event?.locals?.session;
-    await createEvent(session?.id, "error", { env: "server", value: `${error?.name}: ${error?.message}` });
-    console.error(error);
-}
-
-export const handle = async ({ event, resolve }) => {
+export const customHandle = async ({ event, resolve }) => {
     const { pathname } = event.url;
 
     const ip_address = event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
@@ -118,3 +113,11 @@ export const handle = async ({ event, resolve }) => {
     event.locals.session = session;
     return resolve(event);
 }
+
+const customErrorHandler = ({ error, event }) => {
+    const session = event?.locals?.session;
+    await createEvent(session?.id, "error", { env: "server", value: `${error?.name}: ${error?.message}` });
+};
+
+export const handleError = Sentry.handleErrorWithSentry(customErrorHandler);
+export const handle = sequence(Sentry.sentryHandle(), customHandle());
