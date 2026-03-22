@@ -58,6 +58,10 @@
 
         if(location?.city){
             closeDrawer();
+            createEvent("city", { value: location?.city?.name });
+        }
+        else if(location?.region){
+            createEvent("region", { value: location?.region?.name });
         }
     }
 

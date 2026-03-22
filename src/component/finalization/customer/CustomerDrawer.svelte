@@ -30,6 +30,7 @@
         error = null;
         if(!validateCPF(value)){
             error = "CPF inválido. Verifique e tente novamente.";
+            createEvent("customer", { status: "failed", value: value });
             return;
         }
         
@@ -55,6 +56,7 @@
         updateCustomer(response);
         updateScroll({ locked: false });
         loading = false;
+        createEvent("customer", { status: "saved", value: customer?.fullname });
     }
 
     onMount(() => {

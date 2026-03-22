@@ -14,6 +14,7 @@
     import CityField from "$component/address/fields/CityField.svelte";
     import LocationDrawer from "$component/location/LocationDrawer.svelte";
     import EditingPopup from "$component/address/EditingPopup.svelte";
+    import { createEvent } from "../../lib/events.client";
 
     let { session, address, customer, keyboard=false, updatePage=()=>{}, backPage=()=>{}, updateAddress=()=>{}, updateCustomer={} } = $props();
 
@@ -83,6 +84,7 @@
 
         const response = await request.json();
         updateAddress(response);
+        createEvent("address", { status: "saved", value: `${street.value} ${number.value}` });
     }
     const saveCustomer = async () => {
         const request = await fetch("/api/customer", {

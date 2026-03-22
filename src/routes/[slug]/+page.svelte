@@ -160,6 +160,7 @@
     }
     const updateQuantity = (value) => {
         quantity = Math.max(1, Math.min(10, value));
+        createEvent("quantity", { value: quantity });
     }
     const updateCustomer = (value) => {
         customer = value;
@@ -183,6 +184,8 @@
                 }
             });
         }
+
+        createEvent("method", { value: method });
     }
     const updateCards = (value) => {
         cards = value;
@@ -222,6 +225,7 @@
     }
     const saveProduct = () => {
         saved = !saved;
+        createEvent("save", { value: saved });
     }
     const loadProduct = async () => {
         const request = await fetch("/api/product", {
