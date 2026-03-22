@@ -72,6 +72,8 @@ const updateSessionTTCLID = async (session_id, ttclid) => {
 const safeDecode = (value) => value ? decodeURIComponent(value) : null;
 
 const customHandle = async ({ event, resolve }) => {
+    if(!event || !resolve) return;
+    
     const { pathname } = event.url;
 
     const ip_address = event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
