@@ -6,6 +6,7 @@
 
     import ImageItem from "$component/image/ImageItem.svelte";
     import ReviewRating from "$component/product/reviews/ReviewRating.svelte";
+    import { createEvent } from "../../lib/events.client";
 
     let { session } = $props();
 
@@ -78,6 +79,7 @@
         }, 300);
 
         open = true;
+        createEvent("viewer", { image: images[index]?.source });
     }
     export const closeViewer = () => {
         open = false;
