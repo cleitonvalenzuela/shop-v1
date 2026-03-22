@@ -107,11 +107,13 @@ export const handle = async ({ event, resolve }) => {
         }
     }
 
+    /*
     if(!session.captcha_solved){
         if(!pathname.startsWith("/api/") && !pathname.startsWith("/captcha")){
             throw redirect(302, `/captcha?href=${event.url.href}`);
         }
     }
+    */
 
     event.locals.session = session;
     return resolve(event);
