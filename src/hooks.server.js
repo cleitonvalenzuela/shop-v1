@@ -69,7 +69,7 @@ const updateSessionTTCLID = async (session_id, ttclid) => {
     return data;
 }
 
-export const customHandle = async ({ event, resolve }) => {
+const customHandle = async ({ event, resolve }) => {
     const { pathname } = event.url;
 
     const ip_address = event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
