@@ -296,13 +296,20 @@
         }
         requestAnimationFrame(observeFrames);
     }
+    const handleClientError = (event) => {
+        createEvent("error", { env: "client", value: event.error });
+    };
 
     onMount(() => {
         last_performance = performance.now();
-
         if(product.is_active){
             observeFrames();
             loadProduct();
+        }
+
+        window.addEventListener("error", handleClientError);
+        return () => {
+            window.removeEventListener("error", handleClientError);
         }
     });
 </script>

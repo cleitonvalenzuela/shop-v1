@@ -2,6 +2,7 @@ import supabase from "$lib/supabase";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
 import { categorizeRequest } from "$lib/detection";
+import { createEvent } from "./lib/events.server";
 
 const getSessionByID = async (id) => {
     if(!id) return;
@@ -64,6 +65,12 @@ const updateSessionTTCLID = async (session_id, ttclid) => {
 
     if(error) throw console.error("Error on updateSessionTTCLID: ", error);
     return data;
+}
+
+export const handleError = async ({ error, event }) => {
+    const session = event?.locals?.session;
+    await createEvent(session?.id, "error", { env: "server", value: `${error?.name}: ${error?.message}` });
+    console.error(error);
 }
 
 export const handle = async ({ event, resolve }) => {
