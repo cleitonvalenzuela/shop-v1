@@ -6,18 +6,13 @@
     let { data } = $props();
 
     const resolve = () => {
-        await createEvent("captcha", { success: true });
         if(data?.href){
             location.href = data?.href;
         }
     }
-
-    const fail = async () => {
-        await createEvent("captcha", { success: false });
-    }
 </script>
 
-<CaptchaPopup onResolve={resolve} onFail={fail}/>
+<CaptchaPopup onResolve={resolve}/>
 
 <div class="w-full h-full fixed top-0 left-0">
     <header class="flex flex-col w-full">
