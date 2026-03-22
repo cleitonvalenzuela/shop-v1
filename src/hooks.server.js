@@ -1,5 +1,6 @@
 import supabase from "$lib/supabase";
 import * as Sentry from "@sentry/sveltekit";
+import { sequence } from "@sveltejs/kit/hooks";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
 import { categorizeRequest } from "$lib/detection";
