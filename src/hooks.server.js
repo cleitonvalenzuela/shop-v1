@@ -114,7 +114,7 @@ export const customHandle = async ({ event, resolve }) => {
     return resolve(event);
 }
 
-const customErrorHandler = ({ error, event }) => {
+const customErrorHandler = async ({ error, event }) => {
     const session = event?.locals?.session;
     await createEvent(session?.id, "error", { env: "server", value: `${error?.name}: ${error?.message}` });
 };
