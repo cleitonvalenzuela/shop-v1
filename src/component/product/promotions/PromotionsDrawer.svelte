@@ -1,5 +1,6 @@
 <script>
     import { formatPrice } from "$lib/formating";
+    import { createEvent } from "$lib/events.client";
 
     import PromotionItem from "$component/product/promotions/PromotionItem.svelte";
 
@@ -13,6 +14,7 @@
     export const openDrawer = () => {
         updateScroll({ locked: true });
         open = true;
+        createEvent("drawer", { name: "promotions" });
     }
     export const closeDrawer = () => {
         open = false;

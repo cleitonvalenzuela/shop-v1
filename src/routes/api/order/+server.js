@@ -5,6 +5,7 @@ import { getRandomNumber } from '$lib/random';
 import { addHoursToDate } from '$lib/datetime';
 import { getShippingRange } from '$lib/shipping';
 import { purchaseEvent } from '$lib/tiktok';
+import { createEvent } from '$lib/events.server';
 
 import { PODPAY_PUBLIC_KEY, PODPAY_PRIVATE_KEY } from '$env/static/private';
 
@@ -35,6 +36,7 @@ const getProductByID = async (id) => {
     .select(`
         id,
         slug,
+        title,
         shipping:shippings(id, name, deadline, price:prices(id, regular, promotional))
     `)
     .match({ id, is_active: true })
@@ -196,6 +198,8 @@ export const POST = async ({ request, locals, cookies }) => {
 
     // Dispara o evento de compra no pixel do Tiktok.
     await purchaseEvent(total, product_id, product?.slug, quantity, customer_id, customer?.email, customer?.phone, session?.ttclid, session?.ip_address, session?.useragent);
+
+    await createEvent(session?.id, "order", { id: order?.id, total: total, product: product?.title, customer: customer?.fullname, status: order?.status });
 
     // Retornar os dados.
     return json({ order, payment });

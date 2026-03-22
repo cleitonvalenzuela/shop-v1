@@ -2,6 +2,7 @@
     import DocumentField from "$component/finalization/customer/fields/DocumentField.svelte";
     import { validateCPF } from "$lib/validation";
     import { onMount } from "svelte";
+    import { createEvent } from "$lib/events.client";
 
     let { session, customer, keyboard=false, updateCustomer=()=>{}, updateScroll=()=>{}} = $props();
 
@@ -17,6 +18,7 @@
         value = "";
         error = null;
         open = true;
+        createEvent("drawer", { name: "customer" });
     }
     export const closeDrawer = () => {
         open = false;

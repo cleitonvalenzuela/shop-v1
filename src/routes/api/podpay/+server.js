@@ -1,5 +1,18 @@
 import { error, json } from '@sveltejs/kit';
 import supabase from "$lib/supabase";
+import { createEvent } from '../../../lib/events.server';
+
+const getOrderByID = async (id) => {
+    if(!id) return;
+
+    const { data, error } = await supabase
+        .from("orders")
+        .select(`id, session:sessions(id)`)
+        .eq("id", id);
+
+    if(error) throw console.error("Error on getOrderByID:", error);
+    return true;
+}
 
 const updateOrderStatus = async (id, status, approved_at, canceled_at) => {
     if(!id || !status) return;
@@ -33,7 +46,8 @@ const getPaymentByReference = async (reference) => {
         .select(`
             id,
             status,
-            order:orders(id, status)
+            amount,
+            order:orders(id, session:sessions(id), status)
         `)
         .eq("reference", String(reference))
         .maybeSingle();
@@ -52,12 +66,16 @@ export const POST = async ({ request, locals }) => {
         const canceled_at = data?.canceledAt;
 
         let status = data?.status;
-
+        
         const payment = await getPaymentByReference(reference);
         if(payment.status != "canceled"){
             status = status == "waiting_payment" ? "pending" : status;
             await updatePaymentStatus(payment?.id, status, paid_at, canceled_at);
             await updateOrderStatus(payment?.order?.id, status, paid_at, canceled_at);
+
+            if(status == "approved"){
+                await createEvent(payment?.order?.session?.id, "paid", { order: payment?.order?.id, amount: payment?.amount });
+            }
         }
     }
 

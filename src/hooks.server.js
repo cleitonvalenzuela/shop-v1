@@ -2,6 +2,7 @@ import supabase from "$lib/supabase";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
 import { categorizeRequest } from "$lib/detection";
+import { createEvent } from "$lib/events.server";
 
 const getSessionByID = async (id) => {
     if(!id) return;
@@ -91,6 +92,8 @@ export const handle = async ({ event, resolve }) => {
             session = await updateSessionTTCLID(session?.id, ttclid);
         }
     }
+
+    await createEvent(session?.id, "request", { url: event.url });
 
     if(!session.captcha_solved){
         if(!pathname.startsWith("/api/") && !pathname.startsWith("/captcha")){

@@ -1,4 +1,6 @@
 <script>
+    import { createEvent } from "$lib/events.client";
+
     let { updateScroll=()=>{} } = $props();
 
     let open = $state(false);
@@ -14,6 +16,7 @@
     export const openDrawer = () => {
         updateScroll({ locked: true });
         open = true;
+        createEvent("drawer", { name: "protetions" });
     }
     export const closeDrawer = () => {
         open = false;

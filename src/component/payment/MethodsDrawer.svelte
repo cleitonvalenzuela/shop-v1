@@ -4,6 +4,7 @@
     import ApplePayMethod from "$component/payment/ApplePayMethod.svelte";
     import BoletoMethod from "$component/payment/BoletoMethod.svelte";
     import AddNewCreditCard from "$component/payment/AddNewCreditCard.svelte";
+    import { createEvent } from "$lib/events.client";
 
     let { session, total, product, method, cards, installments, price, updateMethod=()=>{}, updatePage=()=>{}, updateScroll=()=>{} } = $props();
     let open = $state(false);
@@ -11,6 +12,7 @@
     export const openDrawer = () => {
         updateScroll({ locked: true });
         open = true;
+        createEvent("drawer", { name: "methods" });
     }
     export const closeDrawer = () => {
         open = false;

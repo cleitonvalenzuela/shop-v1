@@ -1,7 +1,8 @@
 <script>
     import { onMount } from "svelte";
+    import { createEvent } from "$lib/events.client";
 
-    let { onResolve=()=>{}, tolerance=0.03 } = $props();
+    let { onResolve=()=>{}, onFail=()=>{}, tolerance=0.03 } = $props();
 
     let handle = $state(null);
     let track = $state(null);
@@ -76,6 +77,7 @@
         processing = true;
 
         if (Math.abs(target_px - left) <= (tolerance * canvas_width)) {
+            createEvent("captcha", { success: true });
             await fetch("/api/captcha", { method: "POST" });
 
             solved = true;
@@ -91,6 +93,7 @@
                 processing = false;
 
                 setTimeout(() => {
+                    createEvent("captcha", { success: false });
                     updateCaptcha();
 
                     failed = false;

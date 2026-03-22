@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import { createEvent } from "$lib/events.client";
 
     let { pages=[] } = $props();
 
@@ -21,6 +22,8 @@
             loaded[index] = true;
         }
 
+        createEvent("transition", { name: name, params: params });
+
         if(pages[index]?.color) document.body.style.backgroundColor = pages[index].color;
         if(pages[index]?.history !== false) history.push(page);
     }
@@ -38,6 +41,8 @@
         document.body.style.position = "fixed";
         document.body.style.width = "100%";
         document.body.style.height = "100%";
+
+        createEvent("lock", { success: true });
     };
 
     const unlockScroll = () => {
@@ -45,16 +50,22 @@
         document.body.style.overflow = "";
         document.body.style.position = "";
         document.body.style.width = "";
+
+        createEvent("unlock", { success: true });
     };
     const handleResize = () => {
+        const window_width = window.innerWidth;
         const window_height = window.innerHeight;
         const viewport_height = window?.visualViewport?.height;
+        const viewport_width = window?.visualViewport?.width;
         keyboard = viewport_height < window_height;
 
         if (!locked && viewport_height > window_height * 0.95) {
             locked = true;
             lockScroll();
         }
+
+        createEvent("resize", { window: { width: window_width, height: window_height }, viewport: { width: viewport_width, height: viewport_height } });
     };
     const handleScroll = (e) => {
         if(window.scrollY > 5 && !locked){

@@ -7,6 +7,7 @@
     import VariationItem from "$component/variations/VariationItem.svelte";
     import CouponItem from "$component/product/coupons/CouponItem.svelte";
     import ToastNotification from "$component/ToastNotification.svelte";
+    import { createEvent } from "$lib/events.client";
 
     let { session, costs, discounts, coupons, product, shipping, variations, price, prices, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
 
@@ -71,6 +72,7 @@
     export const openDrawer = () => {
         document.body.classList.add("no-scroll");
         open = true;
+        createEvent("drawer", { name: "variations" });
     }
     export const closeDrawer = () => {
         container.scrollTo({ top: 0, behavior: "instant" });

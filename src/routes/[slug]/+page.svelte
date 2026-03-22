@@ -3,6 +3,7 @@
     import { addHoursToDate } from '$lib/datetime';
     import { getCardInstallments } from '$lib/card.js';
     import { compareArray } from '$lib/array.js';
+    import { createEvent } from '$lib/events.client.js';
 
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
 
@@ -197,6 +198,7 @@
                 variation?.variants?.map((item, j) => {
                     if(item?.id == variant?.id){
                         variations[i].variants[j].is_selected = true;
+                        createEvent("variation", { name: variation?.name, value: item?.name });
                     }
                     else{
                         variations[i].variants[j].is_selected = false;

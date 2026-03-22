@@ -1,6 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
     import { getShippingRange } from "$lib/shipping";
+    import { createEvent } from "$lib/events.client";
 
     let { costs, discounts, coupons, shipping, address, openLocationDrawer=()=>{}, updateScroll=()=>{} } = $props();
 
@@ -11,6 +12,7 @@
     export const openDrawer = () => {
         updateScroll({ locked: true });
         open = true;
+        createEvent("drawer", { name: "shipping" });
     }
     export const closeDrawer = () => {
         open = false;

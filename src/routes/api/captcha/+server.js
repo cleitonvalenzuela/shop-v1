@@ -1,5 +1,6 @@
 import supabase from '$lib/supabase.js';
 import { json } from '@sveltejs/kit';
+import { createEvent } from '../../../lib/events.server';
 
 const validateCaptchaBySession = async (id) => {
     if(!id) return;

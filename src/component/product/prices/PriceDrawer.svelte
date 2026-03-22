@@ -1,5 +1,6 @@
 <script>
     import { formatPrice } from "$lib/formating";
+    import { createEvent } from "$lib/events.client";
 
     let { costs, discounts, product, price, coupon, updateScroll=()=>{} } = $props();
 
@@ -8,6 +9,7 @@
     export const openDrawer = () => {
         updateScroll({ locked: true });
         is_open = true;
+        createEvent("drawer", { name: "price" });
     }
     export const closeDrawer = () => {
         is_open = false;

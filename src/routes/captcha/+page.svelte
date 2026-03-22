@@ -1,17 +1,23 @@
 <script>
     import CaptchaPopup from "$component/CaptchaPopup.svelte";
     import ProductSkeleton from "$component/product/ProductSkeleton.svelte";
+    import { createEvent } from "$lib/events.client.js";
 
     let { data } = $props();
 
-    const redirect = () => {
+    const resolve = () => {
+        await createEvent("captcha", { success: true });
         if(data?.href){
             location.href = data?.href;
         }
     }
+
+    const fail = async () => {
+        await createEvent("captcha", { success: false });
+    }
 </script>
 
-<CaptchaPopup onResolve={redirect}/>
+<CaptchaPopup onResolve={resolve} onFail={fail}/>
 
 <div class="w-full h-full fixed top-0 left-0">
     <header class="flex flex-col w-full">

@@ -3,6 +3,7 @@
 
     import CitiesView from "$component/location/views/CitiesView.svelte";
     import RegionsView from "$component/location/views/RegionsView.svelte";
+    import { createEvent } from "$lib/events.client";
 
     let { address, onCloseDrawer=()=>{}, updateAddress=()=>{}, updateScroll=()=>{} } = $props();
 
@@ -71,6 +72,7 @@
         }
         
         open = true;
+        createEvent("drawer", { name: "location" });
     }
     export const closeDrawer = () => {
         open = false;

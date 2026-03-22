@@ -2,6 +2,7 @@
     import { formatPrice } from "$lib/formating";
 
     import SuggestionsSection from "$component/suggestions/SuggestionsSection.svelte";
+    import { createEvent } from "$lib/events.client";
 
     let { product, order, updateScroll=()=>{}, updatePage=()=>{} } = $props();
 
@@ -12,6 +13,7 @@
         updateScroll({ locked: true });
         container?.scrollTo({ top: 0, behavior: "instant" });
         is_open = true;
+        createEvent("drawer", { name: "success" });
     }
     export const closeDrawer = () => {
         is_open = false;

@@ -3,6 +3,7 @@ import supabase from "$lib/supabase";
 import { getRandomNumber } from '$lib/random';
 import { addHoursToDate } from '$lib/datetime.js';
 import { getShippingRange } from '$lib/shipping.js';
+import { createEvent } from '$lib/events.server';
 
 const cancelOrderByID = async (order_id, reason) => {
     if(!order_id || !reason) return;
@@ -49,6 +50,8 @@ export const POST = async ({ request, locals, cookies }) => {
     // Cancela o pedido e os pagamentos.
     let order = await cancelOrderByID(order_id, reason);
     let payment = await cancelPaymentsByOrder(order_id, "order_cancelation");
+
+    await createEvent("cancelation", { id: order?.id, reason: reason });
 
     // Retornar os dados.
     return json({ order, payment });
