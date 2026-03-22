@@ -69,14 +69,16 @@ const updateSessionTTCLID = async (session_id, ttclid) => {
     return data;
 }
 
+const safeDecode = (value) => value ? decodeURIComponent(value) : null;
+
 const customHandle = async ({ event, resolve }) => {
     const { pathname } = event.url;
 
     const ip_address = event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
     const useragent = event.request.headers.get("user-agent");
-    const country = decodeURIComponent(event.request.headers.get('x-vercel-ip-country'));
-    const region = decodeURIComponent(event.request.headers.get('x-vercel-ip-country-region'));
-    const city = decodeURIComponent(event.request.headers.get('x-vercel-ip-city'));
+    const country = safeDecode(event.request.headers.get('x-vercel-ip-country'));
+    const region = safeDecode(event.request.headers.get('x-vercel-ip-country-region'));
+    const city = safeDecode(event.request.headers.get('x-vercel-ip-city'));
 
     const headers = Object.fromEntries(event.request.headers.entries());
     const query = Object.fromEntries(event.url.searchParams.entries());
@@ -84,7 +86,7 @@ const customHandle = async ({ event, resolve }) => {
 
     const ttclid = event.url.searchParams.get('ttclid');
 
-    if(/vercel-(screenshot|favicon)\/([0-9]+)/.test(useragent)) return new Response("OK");
+    if(!useragent || /vercel-(screenshot|favicon)\/([0-9]+)/.test(useragent)) return new Response("OK");
 
     let session = await getSessionByID(event.cookies.get("session"));
     if(!session){
@@ -118,7 +120,8 @@ const customHandle = async ({ event, resolve }) => {
 const customErrorHandler = async ({ error, event }) => {
     const session = event?.locals?.session;
     await createEvent(session?.id, "error", { env: "server", value: `${error?.name}: ${error?.message}` });
+    return `${error?.name}: ${error?.message}`;
 };
 
 export const handleError = Sentry.handleErrorWithSentry(customErrorHandler);
-export const handle = sequence(Sentry.sentryHandle(), customHandle());
+export const handle = sequence(Sentry.sentryHandle(), customHandle);
