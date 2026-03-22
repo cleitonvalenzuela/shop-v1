@@ -78,9 +78,9 @@ export const handle = async ({ event, resolve }) => {
 
     const ip_address = event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
     const useragent = event.request.headers.get("user-agent");
-    const country = event.request.headers.get('x-vercel-ip-country');
-    const region = event.request.headers.get('x-vercel-ip-country-region');
-    const city = event.request.headers.get('x-vercel-ip-city');
+    const country = decodeURIComponent(event.request.headers.get('x-vercel-ip-country'));
+    const region = decodeURIComponent(event.request.headers.get('x-vercel-ip-country-region'));
+    const city = decodeURIComponent(event.request.headers.get('x-vercel-ip-city'));
 
     const headers = Object.fromEntries(event.request.headers.entries());
     const query = Object.fromEntries(event.url.searchParams.entries());
