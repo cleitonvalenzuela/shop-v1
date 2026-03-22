@@ -1,12 +1,12 @@
 import supabase from "$lib/supabase";
 
-export const createEvent = async (session_id, name, data) => {
+export const createEvent = async (session_id, name, _data) => {
     const { data, error } = await supabase
         .from("events")
         .insert({
             session_id: session_id,
             name: name,
-            data: data
+            data: _data
         })
         .select()
         .maybeSingle()
