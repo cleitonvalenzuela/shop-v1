@@ -28,7 +28,7 @@
                 {#if Object.values(variants)?.length === 0}
                     <span class="text-[#858585] text-[12px] whitespace-nowrap">{prices?.length} opções disponíveis</span>
                 {:else}
-                    <span class="text-[#858585] text-[12px]">Selecionado: {Object.values(variants)?.map(variant => variant.name).join(", ")}</span>
+                    <span class="text-[#858585] text-[12px] truncate block max-w-[195px]">Selecionado: {Object.values(variants)?.map(variant => variant.name).join(", ")}</span>
                 {/if}
             </div>
         </div>
