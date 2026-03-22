@@ -31,8 +31,6 @@ export const load = async ({ url, locals, params }) => {
     const product = await getProductBySlug(params.slug);
     if(!product) throw error(404, "Page not found");
 
-    const session = locals?.session;
-
     // Pega os dados do cliente.
     const customer = locals?.session?.customer || {};
 
